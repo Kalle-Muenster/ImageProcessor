@@ -5,7 +5,7 @@ import postprocessor.color.Color32Surface.*;
 
 
 abstract public class Color32 extends Number
-{   
+{
   ///////////////////////////////////////////////////////
   // exceptions:
 	
@@ -34,7 +34,7 @@ abstract public class Color32 extends Number
 	
 	// get a color32 instance's concrete channel configuration 
 	abstract protected Layout c();
-	// create an identical clone of same color at same format
+	// create an identical clone by same color of same format
 	abstract public Color32 clone();
 	
   ////////////////////////////////////////////////////
@@ -625,7 +625,7 @@ abstract public class Color32 extends Number
     }
 
     // assign another color32 value format checked and 
-    // gegebenenfalls converted to match correct order 
+    // gegebenenfalls converted for matching correct order 
     public void assignChecked( Color32 other ) {
     	this.farb = this.c().surface.typecode != other.c().surface.typecode
     			  ? other.c().ConvertInto( this.c(), other.farb )
@@ -648,7 +648,7 @@ abstract public class Color32 extends Number
     
     ///////////////////////////////////////////////////////////////////////////////////////////
     // compositors:
-    public Color32 Compose(int r, int g, int b, int a) { 
+    public Color32 Compose( int r, int g, int b, int a ) { 
     	return createColor( format(), r, g, b, a );
     }
     public Color32 Compose( int r, int g, int b ) {

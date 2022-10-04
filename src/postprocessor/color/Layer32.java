@@ -525,7 +525,7 @@ public class Layer32< SurFace extends Color32Surface.Layout > extends Color32
 		return this;
 	}
 	public Layer32 setPosition( int x, int y ) {
-		position = Struct.indexWithin( size, offset, Struct.newPoint(x,y) );
+		position = Struct.indexWithin( this.size, this.offset, Struct.newPoint(x,y) );
 		return this;
 	}
 	

@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>ext</name>
-			<type>2</type>
-			<location>D:/PROJECTS/WorkingCopys/SVN/ImageProcessor/ext</location>
-		</link>
-	</linkedResources>
 </projectDescription>
