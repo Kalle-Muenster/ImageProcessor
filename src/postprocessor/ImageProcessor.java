@@ -173,7 +173,7 @@ public class ImageProcessor
 	}
 	
 	public static void displayUsage() {
-		System.out.print("\n\n" + " ImageProcessor usage: \n" + "\n"
+		System.out.print( "\n\n" + " ImageProcessor usage: \n" + "\n"
 				+ "    ImageProcessor <PathToImageFile> [Command1 [ParameterList1]] [Command2 [ParameterList2]] [Command...]]...\n"
 				+ "\n" + "    aviable commands:\n\n\n"
 				+ "        cuttenEdges   : Removes [bordersize] pixels from the image's edges (for removing background\n"
@@ -189,8 +189,8 @@ public class ImageProcessor
 				+ "                        the upper corners, and the second parameter for cutting the lower corners\n"
 				+ "                        usage:\n"
 				+ "                                roundCorners [CornerSize|UpperCorners LowerCorners]\n\n"
-				+ "        rotateImage   : Rotates the whole image for N steps (-90� per step). also\n"
-				+ "                        giving absolute degree values of 90�, 180� or 270� is supported:\n"
+				+ "        rotateImage   : Rotates the whole image for N steps (-90° per step). also\n"
+				+ "                        giving absolute degree values of 90°, 180° or 270° is supported:\n"
 				+ "                        usage:\n"
 				+ "                                rotateImage [+/-]<N> | [+/-]<90|180|270>\n\n"
 				+ "        flipImage     : Flips the whole image eitrher 'UP' direction or 'RIGHT' direction:\n"
@@ -253,9 +253,9 @@ public class ImageProcessor
 				+ "        ImageProcessor someImageFile.png cuttenEdges roundCorners 2,5 0 drawMarker 100 75 50 setColor 255 128 0 drawMarker 300 250 400 270\n\n"
 				+ "    would load an image, then cuts 3 pixels from each of it's edges, rounds it's upper-left and upper-right corners by radius of 2.5pixel and then\n"
 				+ "    it draws a red circle of 50px radius at position x:100 y:75 and an orange 400px X 270px pixel rectangle at position x:300 y:250."
-				+ "\n");
+				+ "\n" );
 	}
-	    
+
 	    private static final double ARROW_FACTOR = 0.5/3.0;
 		private static final Point2D[] LARGE_ARROW = new Point2D[] { 
 			    new Point2D( -0.5, 0 ), 
@@ -267,12 +267,12 @@ public class ImageProcessor
 		};
 		private static final Point2D[] SMALL_ARROW = new Point2D[] { 
 			    new Point2D( -0.5, 0 ), new Point2D( -0.5, 0.02 ),
-				                        new Point2D( 0.45, 0.02 ),
-				                        new Point2D( 0.45, 0.1 ),
-				new Point2D( -0.5, -0.02 ),
-				new Point2D( 0.45, -0.02 ),
-				new Point2D( 0.45, -0.1 ),
-										new Point2D( 0.5, 0 ) 
+                                        new Point2D( 0.45, 0.02 ),
+                                        new Point2D( 0.45, 0.1 ),
+                new Point2D( -0.5, -0.02 ),
+                new Point2D( 0.45, -0.02 ),
+                new Point2D( 0.45, -0.1 ),
+                                        new Point2D( 0.5, 0 ) 
 		};
 	    public enum SHAPE { CIRCLE, ELLYPS, SQUARE, ARROW, CROSS, UNKNOWN }
         public enum DIRECTION { UP, RIGHT, DOWN, LEFT }
@@ -347,7 +347,7 @@ public class ImageProcessor
 	    	m_originalName = m_fileName;
 	    	
 
-	        Color32Surface.FORMAT formatcode = Color32Surface.FORMAT.BGRA; //  new Color32Surface.SURFACECODE(Color32Surface.FORMAT.BGRA); //.fromChannelOrder("rgba").format;
+	        Color32Surface.FORMAT formatcode = Color32Surface.FORMAT.BGRA; 
 	        
 	        if ( loade == null ) {
 	        	
@@ -400,8 +400,7 @@ public class ImageProcessor
 	        m_color = correct;
 	        
 	        System.out.print( String.format(
-	        		"Image: loaded (size %s x %s, %s): %s\n",
-	        		 m_image.width, m_image.height, formatcode.toString(), filePath )
+	            "Image: loaded (size %s x %s, %s): %s\n", m_image.width, m_image.height, formatcode.toString(), filePath )
 	        		           );
 
 			m_view = new Image32( loade );
@@ -521,8 +520,7 @@ public class ImageProcessor
 	    		if( CurrentMarker.Brush.Size() == brushsize )
 	    			if ( CurrentMarker.Color.farb == m_color.farb )
 	    			return;
-	    	} 
-	    	CurrentMarker.Lines = dotSize;
+	    	} CurrentMarker.Lines = dotSize;
 	    	
 	    	//m_brush = new int[size*size];
 	    	CurrentMarker.Brush = m_view.layer.newLayer( brushsize, 0 );
@@ -591,7 +589,7 @@ public class ImageProcessor
 	    		}
 	    	}
 	    }
-	
+
 	    private void drawCircle()
 	    {
 	    	int W = m_view.W;
@@ -605,7 +603,7 @@ public class ImageProcessor
 	    		v1 = Struct.getY(c); v2 = Struct.getY(s);
 	    		clip_image = !(v1-v2 >= 0 && v1+v2 < H);
 	    	} if ( clip_image ) {
-	    		System.err.println("Image: WARNING - marker '"+CurrentMarker.Shape.toString()+"' shape may exceed image bounds!");
+	    		System.err.println( "Image: WARNING - marker '"+CurrentMarker.Shape.toString()+"' shape may exceed image bounds!" );
 	    	}
 
 	    	// reset the brush if it's not at Circle-Border-Default size anymore:
@@ -659,8 +657,7 @@ public class ImageProcessor
 	            	for( int trY=Y1; trY<Y2; ++trY )
 	            		drawPixel( X, trY, m_color );
 	            } yLast = y;
-	        }
-	        m_color.setAlpha( storedAlpha );
+	        } m_color.setAlpha( storedAlpha );
 	    }
 	    
 	    
