@@ -189,8 +189,8 @@ public class ImageProcessor
 				+ "                        the upper corners, and the second parameter for cutting the lower corners\n"
 				+ "                        usage:\n"
 				+ "                                roundCorners [CornerSize|UpperCorners LowerCorners]\n\n"
-				+ "        rotateImage   : Rotates the whole image for N steps (-90° per step). also\n"
-				+ "                        giving absolute degree values of 90°, 180° or 270° is supported:\n"
+				+ "        rotateImage   : Rotates the whole image for N steps (-90ï¿½ per step). also\n"
+				+ "                        giving absolute degree values of 90ï¿½, 180ï¿½ or 270ï¿½ is supported:\n"
 				+ "                        usage:\n"
 				+ "                                rotateImage [+/-]<N> | [+/-]<90|180|270>\n\n"
 				+ "        flipImage     : Flips the whole image eitrher 'UP' direction or 'RIGHT' direction:\n"
@@ -256,7 +256,24 @@ public class ImageProcessor
 				+ "\n");
 	}
 	    
-	    private static final double ARROW_FACTOR = 0.5/3.0; 
+	    private static final double ARROW_FACTOR = 0.5/3.0;
+		private static final Point2D[] LARGE_ARROW = new Point2D[] { 
+			    new Point2D( -0.5, 0 ), 
+				new Point2D( ARROW_FACTOR, ARROW_FACTOR ),
+				new Point2D( 0, 0.5 ),
+				new Point2D( ARROW_FACTOR,-ARROW_FACTOR ),
+				new Point2D( 0, -0.5 ),
+				new Point2D( 0.5, 0 ) 
+		};
+		private static final Point2D[] SMALL_ARROW = new Point2D[] { 
+			    new Point2D( -0.5, 0 ), new Point2D( -0.5, 0.02 ),
+				                        new Point2D( 0.45, 0.02 ),
+				                        new Point2D( 0.45, 0.1 ),
+				new Point2D( -0.5, -0.02 ),
+				new Point2D( 0.45, -0.02 ),
+				new Point2D( 0.45, -0.1 ),
+										new Point2D( 0.5, 0 ) 
+		};
 	    public enum SHAPE { CIRCLE, ELLYPS, SQUARE, ARROW, CROSS, UNKNOWN }
         public enum DIRECTION { UP, RIGHT, DOWN, LEFT }
         
@@ -810,7 +827,21 @@ public class ImageProcessor
 			drawArrow( from.x, from.y, toX, toY );
 		}
 		
-		public void drawArrow(int fromX, int fromY, int toX, int toY)
+		private void checkPoint( Point2D isInside )
+		{
+			int max = (int)(isInside.getX()+0.5);
+			if( max > m_edgeRight )
+				m_edgeRight = max;
+			else if( max < m_edgeLeft )
+				m_edgeLeft = max;
+			max = (int)(isInside.getY()+0.5);
+			if(max > m_edgeBottom)
+				m_edgeBottom = max;
+			else if(max < m_edgeTop)
+				m_edgeTop = max;
+		}
+		
+		public void drawArrow( int fromX, int fromY, int toX, int toY )
 		{
 			if( fromX < toX ) {
 				m_edgeLeft = fromX;
@@ -827,14 +858,10 @@ public class ImageProcessor
 				m_edgeBottom = fromY;
 			}
 
-			//TODO: turning this into some final static 'form' primitive better
-			Point2D[] points = new Point2D[] { 
-					new Point2D( -0.5, 0 ), 
-					new Point2D( ARROW_FACTOR, ARROW_FACTOR ), 
-					new Point2D( ARROW_FACTOR,-ARROW_FACTOR ),
-					new Point2D( 0, 0.5), new Point2D( 0, -0.5 ),
-					new Point2D( 0.5, 0 ) 
-			};
+			boolean small = (m_edgeRight - m_edgeLeft)<(m_view.W/3) && (m_edgeBottom - m_edgeTop)<(m_view.H/3);
+			
+			Point2D[] points = small ? SMALL_ARROW.clone()
+					                 : LARGE_ARROW.clone();
 
 			boolean flYps = (toY-fromY) < 0;
 						
@@ -847,41 +874,49 @@ public class ImageProcessor
 			
 			val = delta.magnitude();
 			Scale sc = new Scale( val, val/2.0 );
-			
-			for( int i = 0; i < 6; ++i ) {
+
+			for( int i = 0; i < points.length; ++i ) {
 				Point2D p = sc.transform( points[i] ); 
 				p = ro.transform(p);
 				points[i] = tr.transform(p); 
 				//points[i] = tr.transform( ro.transform( sc.transform( points[i] ) ) ); 
-				int max = (int)(points[i].getX()+0.5);
-				if( max > m_edgeRight )
-					m_edgeRight = max;
-				else if( max < m_edgeLeft )
-					m_edgeLeft = max;
-				max = (int)(points[i].getY()+0.5);
-				if(max>m_edgeBottom)
-					m_edgeBottom = max;
-				if(max<m_edgeTop)
-					m_edgeTop = max;  
+				checkPoint( points[i] );
 			} 
 			
-			Polygon pol = new Polygon( 
-				points[0].getX(),
-				points[0].getY(),
-				points[1].getX(),
-				points[1].getY(),
-				points[3].getX(),
-				points[3].getY(),
-				points[5].getX(),
-				points[5].getY(),
-				points[4].getX(),
-				points[4].getY(),
-				points[2].getX(),
-				points[2].getY()
+			Polygon pol = small ? new Polygon( 
+					points[0].getX(),
+					points[0].getY(),
+					points[1].getX(),
+					points[1].getY(),
+					points[2].getX(),
+					points[2].getY(),
+					points[3].getX(),
+					points[3].getY(),
+					points[7].getX(),
+					points[7].getY(),
+					points[6].getX(),
+					points[6].getY(),
+					points[5].getX(),
+					points[5].getY(),
+					points[4].getX(),
+					points[4].getY()
+			) : new Polygon(
+					points[0].getX(),
+					points[0].getY(),
+					points[1].getX(),
+					points[1].getY(),
+					points[2].getX(),
+					points[2].getY(),
+					points[5].getX(),
+					points[5].getY(),
+					points[4].getX(),
+					points[4].getY(),
+					points[3].getX(),
+					points[3].getY()
 			);
 			
-			int stored = m_color.getAlpha();
-			m_color.setAlpha( (stored*32)/255 );
+			int storedA = m_color.getAlpha();
+			m_color.setAlpha( small ? storedA : (storedA*32)/255 );
 			boolean overEdged = false;
 			for( int x=m_edgeLeft; x<m_edgeRight; ++x ) {
 				for( int y=m_edgeTop; y<m_edgeBottom; ++y ) {
@@ -892,27 +927,29 @@ public class ImageProcessor
 						overEdged = true;
 					}
 				}
-			} m_color.setAlpha( stored );
+			} m_color.setAlpha( storedA );
 			
-			long[] pts = new long[4];
+			int e = small ? 4 : 3;
+			long[] pts = new long[e+1];
+			int E = points.length-1;
 			
 			pts[0] = Struct.newPoint( (int)(points[0].getX()+0.5), (int)(points[0].getY()+0.5) );
-			pts[3] = Struct.newPoint( (int)(points[5].getX()+0.5), (int)(points[5].getY()+0.5) );
+			pts[e] = Struct.newPoint( (int)(points[E].getX()+0.5), (int)(points[E].getY()+0.5) );
 			
-			pts[1] = Struct.newPoint( (int)(points[1].getX()+0.5), (int)(points[1].getY()+0.5) );
-			pts[2] = Struct.newPoint( (int)(points[3].getX()+0.5), (int)(points[3].getY()+0.5) );
-			
+			for( int i=1; i<e; ++i )
+				pts[i] = Struct.newPoint( (int)(points[i].getX()+0.5), (int)(points[i].getY()+0.5) );
+
 			connectPoints( pts ); // draw 0->1->2->3 (0 is 'from' point, 3 is 'to' point)
 			
-			pts[1] = Struct.newPoint( (int)(points[2].getX()+0.5), (int)(points[2].getY()+0.5) );
-			pts[2] = Struct.newPoint( (int)(points[4].getX()+0.5), (int)(points[4].getY()+0.5) );
-			
-			connectPoints( pts ); // again draw 'from' point 0 'to' point 3, with way points (1 and 2) exchanged 
+			for( int i=e; i<E; ++i )
+				pts[(i-e)+1] = Struct.newPoint( (int)(points[i].getX()+0.5), (int)(points[i].getY()+0.5) );
+
+			connectPoints( pts ); // again draw 'from' point 0 'to' point 3, with way points (1,2..) exchanged 
 			
 	        // Output some info if called from command-line
-			if(m_isMainCall) {
-				if(overEdged) 
-					System.err.println("Image: WARNING - marker 'ARROW' shape may exceed image bounds!");
+			if( m_isMainCall ) {
+				if( overEdged ) 
+					System.err.println( "Image: WARNING - marker 'ARROW' shape may exceed image bounds!" );
 				System.out.print( "Image: Add ARROW pointing from: ["
 	                            + Struct.getX(pts[0])+","+Struct.getY(pts[0])+ "] to ["
 	        		            + Struct.getX(pts[3])+","+ Struct.getY(pts[3])+"]\n" );
@@ -995,7 +1032,7 @@ public class ImageProcessor
             			         ).setPixel( m_color.farb );
             }
             
-            // für später...
+            // fï¿½r spï¿½ter...
             // newLayer.addLayer( m_view.layer, Struct.newPoint(expand,expand) );
             
             m_view.W = newLayer.Width();

@@ -519,7 +519,7 @@ abstract public class Color32 extends Number
     
     // accent by 180degrees hue shift, calculated 
     // via assuming pythagoras pow(Red,2)*pow(Green,2) 
-    // equals pow(Blue,2). for applying 180° degree
+    // equals pow(Blue,2). for applying 180ï¿½ degree
     // rotation then each edge's coresponding opposide
     // partials then computed:
     // Red2 will get value of sqrt( 2, pow(Green1,2)/2 + pow(Blue1,2)/2 )
