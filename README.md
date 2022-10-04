@@ -103,7 +103,7 @@ ImageProcessor usage:
 Within a single ImageProcessor call, as many commands it's needs for completing a desired
 image can be chained after each other. here a short command line example:
 
-        ImageProcessor someImageFile.png cuttenEdges roundCorners 2,5 0 drawMarker 100 75 50 setColor 255 128 0 drawMarker 300 250 400 270
+    ImageProcessor someImageFile.png cuttenEdges roundCorners 2,5 0 drawMarker 100 75 50 setColor 255 128 0 drawMarker 300 250 400 270
 
 above command line loads an image, then cuts 3 pixels from each of it's edges, rounds it's
 upper-left and upper-right corners by radius of 2.5pixel and then it draws a red circle by
