@@ -2,7 +2,7 @@
 Command line tool (written in Java) for doing simple postproccessing operations on screenshots
 
 
-A small java commandline tool for performing simple post processing operations on screenshot like drawing markers, arrows, croping regions and so on. It can get quite handy to be used within automated proccessing of documentation for software. There often screenshots pointing out operations on distinct buttons, menues or othewr items by drawn marker overlays like rectangles, arrows or circles. This tool can be used for drawing such things to screenshot images, callable from within automation scripts which compile documentation.
+A small java commandline tool for performing simple post processing operations on screenshot like drawing markers, arrows, croping regions and so on. It can get quite handy to be used within automated proccessing of documentation for software. There often screenshots pointing out operations on distinct buttons, menues or other items by drawn marker overlays like rectangles, arrows or circles. This tool can be used for drawing such things to screenshot images, callable from within automation scripts which compile documentation.
 
 
 ImageProcessor usage:
