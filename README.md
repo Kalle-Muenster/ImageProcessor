@@ -99,14 +99,18 @@ ImageProcessor usage:
                         usage:
                                 dragObject [SHAPE] <fromX> <fromY> <toX> <toY>
 
-    Within a single ImageProcessor call, as many commands it's needs for completing a desired image
-    can be chained after each other.
 
-    Following example:
+Within a single ImageProcessor call, as many commands it's needs for completing a desired
+image can be chained after each other. here a short command line example:
 
         ImageProcessor someImageFile.png cuttenEdges roundCorners 2,5 0 drawMarker 100 75 50 setColor 255 128 0 drawMarker 300 250 400 270
 
-    would load an image, then cuts 3 pixels from each of it's edges, rounds it's upper-left and upper-right corners by radius of 2.5pixel and then
-    it draws a red circle of 50px radius at position x:100 y:75 and an orange 400px X 270px pixel rectangle at position x:300 y:250.
+above command line loads an image, then cuts 3 pixels from each of it's edges, rounds it's
+upper-left and upper-right corners by radius of 2.5pixel and then it draws a red circle by
+radius 50px at position x:100 y:75 and an orange rectangle by width/height 400 X 270 pixel
+at position x:300 y:250.
+
+
+
     
     
