@@ -100,8 +100,8 @@ ImageProcessor usage:
                                 dragObject [SHAPE] <fromX> <fromY> <toX> <toY>
 
 
-Within a single ImageProcessor call, as many commands it's needs for completing a desired
-image can be chained after each other. here a short command line example:
+Within a single ImageProcessor call, as many commands it maybe needs for completing a desired
+screenshot image can be chained after each other. here a short command line example:
 
     ImageProcessor someImageFile.png cuttenEdges roundCorners 2,5 0 drawMarker 100 75 50 setColor 255 128 0 drawMarker 300 250 400 270
 
